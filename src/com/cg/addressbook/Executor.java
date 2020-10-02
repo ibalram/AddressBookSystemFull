@@ -45,8 +45,12 @@ public class Executor {
 				count++;
 			}
 		}
-		if (count==1)
+		if (count==1) {
 			System.out.println("Not found");
+			return;
+		}
+		count--;
+		System.out.println("Count of Persons from given City: "+count);
 	}
 	
 	public static void searchByState(AddressBooks addressBooks, Scanner sc) {
@@ -60,8 +64,12 @@ public class Executor {
 				count++;
 			}
 		}
-		if (count==1)
+		if (count==1) {
 			System.out.println("Not found");
+			return;
+		}
+		count--;
+		System.out.println("Count of Persons from given State: "+count);
 	}
 
 	public static void main(String[] args) {
