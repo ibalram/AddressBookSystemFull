@@ -37,6 +37,15 @@ public class AddressBook {
 		}
 		return null;
 	}
+	
+	public ArrayList<Contact> searchByCity(String city) {
+		ArrayList<Contact> list = new ArrayList<Contact>();
+		for (int i = 0; i < addressList.size(); ++i) {
+			if (addressList.get(i).getCity().equalsIgnoreCase(city))
+				list.add(addressList.get(i));
+		}
+		return list;
+	}
 
 	public boolean deleteContact(String name) {
 		for (int i = 0; i < addressList.size(); ++i) {

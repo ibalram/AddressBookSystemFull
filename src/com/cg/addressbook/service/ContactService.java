@@ -11,7 +11,7 @@ public class ContactService {
 	private AddressBook addressBook;
 	private Validator validator;
 
-	public ContactService(Scanner sc, AddressBook address) {
+	public ContactService(Scanner sc, AddressBook addressBook) {
 		this.sc = sc;
 		this.addressBook = addressBook;
 		this.validator = new Validator();

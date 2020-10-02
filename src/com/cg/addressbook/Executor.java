@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.cg.addressbook.dto.AddressBook;
 import com.cg.addressbook.dto.AddressBooks;
+import com.cg.addressbook.dto.Contact;
 import com.cg.addressbook.service.AddressBookService;
 
 public class Executor {
@@ -32,6 +33,19 @@ public class Executor {
 		}
 		System.out.print("No addres book found\n");
 	}
+	
+	public static void searchByCity(AddressBooks addressBooks, Scanner sc) {
+		System.out.println("Enter the city:");
+		String city = sc.nextLine();
+		System.out.println("Contact for given city:");
+		int count = 1;
+		for (Contact contact: addressBooks.searchByCity(city)) {
+			if (contact!=null) {
+				System.out.println(count+"\n"+contact+"\n");
+				count++;
+			}
+		}
+	}
 
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book Program");
@@ -43,7 +57,7 @@ public class Executor {
 		boolean repeat = true;
 		while (repeat) {
 			System.out
-					.println("Main Options:\n1 (Add new AddressBook)\n2 (View or open existing AddressBook)\n3 (Exit)");
+					.println("Main Options:\n1 (Add new AddressBook)\n2 (View or open existing AddressBook)\n3 (Search by city) \n4 (Exit)");
 			int option = Integer.parseInt(sc.nextLine());
 			switch (option) {
 			case 1:
@@ -53,6 +67,9 @@ public class Executor {
 				viewExistingAddressBook(addressBooks, addressBookService, sc);
 				break;
 			case 3:
+				searchByCity(addressBooks, sc);
+				break; //todo
+			case 4:
 				repeat = false;
 				break;
 			default:
