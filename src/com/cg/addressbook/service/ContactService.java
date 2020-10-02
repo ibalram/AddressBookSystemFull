@@ -8,12 +8,12 @@ import com.cg.addressbook.dto.Contact;
 public class ContactService {
 	private Scanner sc;
 	private Validator validator;
-	
-	public ContactService(Scanner sc ) {
-		this.sc= sc;
+
+	public ContactService(Scanner sc) {
+		this.sc = sc;
 		this.validator = new Validator();
 	}
-	
+
 	public Contact createContact() {
 		Contact contact = new Contact();
 		String firstName, lastName, address, city, state, zip, email, phoneNumber;
@@ -22,7 +22,8 @@ public class ContactService {
 			try {
 				firstName = sc.nextLine();
 				validator.validateFirstName(firstName);
-				contact.setFirstName(firstName); break;
+				contact.setFirstName(firstName);
+				break;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -32,7 +33,8 @@ public class ContactService {
 			try {
 				lastName = sc.nextLine();
 				validator.validateLastName(lastName);
-				contact.setLastName(lastName); break;
+				contact.setLastName(lastName);
+				break;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -42,7 +44,8 @@ public class ContactService {
 			try {
 				address = sc.nextLine();
 				validator.validateAddress(address);
-				contact.setAddress(address); break;
+				contact.setAddress(address);
+				break;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -52,7 +55,8 @@ public class ContactService {
 			try {
 				city = sc.nextLine();
 				validator.validateCity(city);
-				contact.setCity(city); break;
+				contact.setCity(city);
+				break;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -62,7 +66,8 @@ public class ContactService {
 			try {
 				state = sc.nextLine();
 				validator.validateState(state);
-				contact.setState(state); break;
+				contact.setState(state);
+				break;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -72,7 +77,8 @@ public class ContactService {
 			try {
 				zip = sc.nextLine();
 				validator.validateZip(zip);
-				contact.setZip(zip); break;
+				contact.setZip(zip);
+				break;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -82,7 +88,8 @@ public class ContactService {
 			try {
 				phoneNumber = sc.nextLine();
 				validator.validatePhoneNumber(phoneNumber);
-				contact.setPhoneNumber(phoneNumber); break;
+				contact.setPhoneNumber(phoneNumber);
+				break;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -92,7 +99,8 @@ public class ContactService {
 			try {
 				email = sc.nextLine();
 				validator.validateEmail(email);
-				contact.setEmail(email); break;
+				contact.setEmail(email);
+				break;
 			} catch (Exception e) {
 				System.out.println(e.getMessage());
 			}
@@ -100,11 +108,12 @@ public class ContactService {
 		System.out.println("\nContact is added successfully\n");
 		return contact;
 	}
-	
+
 	public void editExistingContact(Contact contact) {
-		while(true) {
+		while (true) {
 			System.out.println("Options to update contact:");
-			System.out.println("1 (FirstName)\n2 (LastName)\n3 (Address)\n4 (City)\n5 (State)\n6 (Zip)\n7 (Phone)\n8 (Email)\n9 (Exit)");
+			System.out.println(
+					"1 (FirstName)\n2 (LastName)\n3 (Address)\n4 (City)\n5 (State)\n6 (Zip)\n7 (Phone)\n8 (Email)\n9 (Exit)");
 			int options = Integer.parseInt(sc.nextLine());
 			switch (options) {
 			case 1:
@@ -114,7 +123,7 @@ public class ContactService {
 				break;
 			case 2:
 				System.out.println("Enter New LastName");
-				String newLastName= sc.nextLine();
+				String newLastName = sc.nextLine();
 				contact.setLastName(newLastName);
 				break;
 			case 3:
@@ -134,15 +143,14 @@ public class ContactService {
 				break;
 			case 6:
 				System.out.println("Enter New Zip");
-				String newZip= sc.nextLine();
+				String newZip = sc.nextLine();
 				contact.setZip(newZip);
-
 				break;
 			case 7:
 				System.out.println("Enter New Phone");
 				String newPhone = sc.nextLine();
 				contact.setPhoneNumber(newPhone);
-				break;	
+				break;
 			case 8:
 				System.out.println("Enter New Email");
 				String newEmail = sc.nextLine();
@@ -157,6 +165,7 @@ public class ContactService {
 			}
 		}
 	}
+
 	public void displayContact(Contact contact) {
 		if (contact == null) {
 			System.out.println("Contact not found");

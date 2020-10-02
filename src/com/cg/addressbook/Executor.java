@@ -11,10 +11,10 @@ public class Executor {
 	private static Scanner sc = new Scanner(System.in);
 	static ContactService contactService;
 	static AddressBook addressBook;
-	
+
 	public static void findContact() {
 		System.out.println("Enter Person Name");
-		String name = sc.nextLine(); 
+		String name = sc.nextLine();
 		contactService.displayContact(addressBook.searchByName(name));
 	}
 
@@ -22,7 +22,7 @@ public class Executor {
 		System.out.println("Enter Person Name");
 		String name = sc.nextLine();
 		Contact contact = addressBook.searchByName(name);
-		if(Objects.nonNull(contact)) {
+		if (Objects.nonNull(contact)) {
 			contactService.editExistingContact(contact);
 			return;
 		}
@@ -31,14 +31,14 @@ public class Executor {
 
 	public static void deleteContact() {
 		System.out.println("Enter Person Name");
-		String name = sc.nextLine(); 
-		if(Objects.nonNull(addressBook.searchByName(name))){
+		String name = sc.nextLine();
+		if (Objects.nonNull(addressBook.searchByName(name))) {
 			addressBook.deleteContact(name);
 			return;
 		}
 		System.out.println("Person Not Found");
 	}
-	
+
 	public static void createContact() {
 		addressBook.addContact(contactService.createContact());
 	}
@@ -48,10 +48,7 @@ public class Executor {
 		System.out.println("--------------------------------");
 		addressBook = new AddressBook();
 		contactService = new ContactService(sc);
-		//System.out.println(contact+"\n");
-		//addressBook.addContact(contact);
-		//System.out.println("Contact is added to addressBook");
-		
+
 		boolean repeat = true;
 		while (repeat) {
 			System.out.println(
