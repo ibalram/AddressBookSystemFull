@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 public class AddressBook {
 	private ArrayList<Contact> addressList = new ArrayList<Contact>();
+	private String name;
+	
+	public AddressBook(String name) {
+		this.name = name;
+	}
 
 	public void setAddressList(ArrayList<Contact> addressList) {
 		this.addressList = addressList;
@@ -11,6 +16,14 @@ public class AddressBook {
 
 	public ArrayList<Contact> getAddressList() {
 		return addressList;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	public void addContact(Contact contact) {
