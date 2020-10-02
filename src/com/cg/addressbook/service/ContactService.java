@@ -14,7 +14,8 @@ public class ContactService {
 		this.validator = new Validator();
 	}
 	
-	public void createPerson(Contact contact, Scanner sc) {
+	public Contact createContact() {
+		Contact contact = new Contact();
 		String firstName, lastName, address, city, state, zip, email, phoneNumber;
 		System.out.println("first name:");
 		while (true) {
@@ -97,5 +98,70 @@ public class ContactService {
 			}
 		}
 		System.out.println("\nContact is added successfully\n");
+		return contact;
+	}
+	
+	public void editExistingContact(Contact contact) {
+		while(true) {
+			System.out.println("Options to update contact:");
+			System.out.println("1 (FirstName)\n2 (LastName)\n3 (Address)\n4 (City)\n5 (State)\n6 (Zip)\n7 (Phone)\n8 (Email)\n9 (Exit)");
+			int options = Integer.parseInt(sc.nextLine());
+			switch (options) {
+			case 1:
+				System.out.println("Enter New FirstName");
+				String newFirstName = sc.nextLine();
+				contact.setFirstName(newFirstName);
+				break;
+			case 2:
+				System.out.println("Enter New LastName");
+				String newLastName= sc.nextLine();
+				contact.setLastName(newLastName);
+				break;
+			case 3:
+				System.out.println("Enter New Address");
+				String newAddress = sc.nextLine();
+				contact.setAddress(newAddress);
+				break;
+			case 4:
+				System.out.println("Enter New City");
+				String newCity = sc.nextLine();
+				contact.setCity(newCity);
+				break;
+			case 5:
+				System.out.println("Enter State");
+				String newState = sc.nextLine();
+				contact.setState(newState);
+				break;
+			case 6:
+				System.out.println("Enter New Zip");
+				String newZip= sc.nextLine();
+				contact.setZip(newZip);
+
+				break;
+			case 7:
+				System.out.println("Enter New Phone");
+				String newPhone = sc.nextLine();
+				contact.setPhoneNumber(newPhone);
+				break;	
+			case 8:
+				System.out.println("Enter New Email");
+				String newEmail = sc.nextLine();
+				contact.setFirstName(newEmail);
+				break;
+			case 9:
+				System.out.println("Exit");
+				return;
+			default:
+				System.out.println("Invalid Entry");
+				break;
+			}
+		}
+	}
+	public void displayContact(Contact contact) {
+		if (contact == null) {
+			System.out.println("Contact not found");
+			return;
+		}
+		System.out.println(contact);
 	}
 }
