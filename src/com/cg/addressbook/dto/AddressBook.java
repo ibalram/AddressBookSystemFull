@@ -46,6 +46,15 @@ public class AddressBook {
 		}
 		return list;
 	}
+	
+	public ArrayList<Contact> searchByState(String state) {
+		ArrayList<Contact> list = new ArrayList<Contact>();
+		for (int i = 0; i < addressList.size(); ++i) {
+			if (addressList.get(i).getState().equalsIgnoreCase(state))
+				list.add(addressList.get(i));
+		}
+		return list;
+	}
 
 	public boolean deleteContact(String name) {
 		for (int i = 0; i < addressList.size(); ++i) {

@@ -37,4 +37,15 @@ public class AddressBooks {
 		}
 		return list.stream().filter(contact->contact!= null).distinct().collect(Collectors.toList());
 	}
+	
+	public List<Contact> searchByState(String state) {
+		List<Contact> list = new ArrayList<Contact>();
+		for (Map.Entry entry: addressBooks.entrySet()) {
+			List<Contact> contactList = ((AddressBook)entry.getValue()).searchByState(state);
+			for (Contact contact: contactList) {
+				list.add(contact);
+			}
+		}
+		return list.stream().filter(contact->contact!= null).distinct().collect(Collectors.toList());
+	}
 }

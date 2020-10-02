@@ -45,6 +45,23 @@ public class Executor {
 				count++;
 			}
 		}
+		if (count==1)
+			System.out.println("Not found");
+	}
+	
+	public static void searchByState(AddressBooks addressBooks, Scanner sc) {
+		System.out.println("Enter the state:");
+		String state = sc.nextLine();
+		System.out.println("Contact for given state:");
+		int count = 1;
+		for (Contact contact: addressBooks.searchByState(state)) {
+			if (contact!=null) {
+				System.out.println(count+"\n"+contact+"\n");
+				count++;
+			}
+		}
+		if (count==1)
+			System.out.println("Not found");
 	}
 
 	public static void main(String[] args) {
@@ -57,7 +74,7 @@ public class Executor {
 		boolean repeat = true;
 		while (repeat) {
 			System.out
-					.println("Main Options:\n1 (Add new AddressBook)\n2 (View or open existing AddressBook)\n3 (Search by city) \n4 (Exit)");
+					.println("Main Options:\n1 (Add new AddressBook)\n2 (View or open existing AddressBook)\n3 (Search and view by city) \n4 (Search and view by state)\n5 (Exit)");
 			int option = Integer.parseInt(sc.nextLine());
 			switch (option) {
 			case 1:
@@ -68,8 +85,11 @@ public class Executor {
 				break;
 			case 3:
 				searchByCity(addressBooks, sc);
-				break; //todo
+				break;
 			case 4:
+				searchByState(addressBooks, sc);
+				break;
+			case 5:
 				repeat = false;
 				break;
 			default:
