@@ -3,14 +3,17 @@ package com.cg.addressbook.service;
 import java.util.Scanner;
 
 import com.cg.addressbook.Validator;
+import com.cg.addressbook.dto.AddressBook;
 import com.cg.addressbook.dto.Contact;
 
 public class ContactService {
 	private Scanner sc;
+	private AddressBook addressBook;
 	private Validator validator;
 
-	public ContactService(Scanner sc) {
+	public ContactService(Scanner sc, AddressBook address) {
 		this.sc = sc;
+		this.addressBook = addressBook;
 		this.validator = new Validator();
 	}
 
@@ -39,7 +42,13 @@ public class ContactService {
 				System.out.println(e.getMessage());
 			}
 		}
-		System.out.println("address:");
+		
+		String name = firstName+" "+lastName;
+		boolean duplicate = addressBook.isExistAlready(name);
+		if (duplicate) {
+			return null;
+		}
+		
 		while (true) {
 			try {
 				address = sc.nextLine();

@@ -97,4 +97,8 @@ public class Contact {
 		return String.format("Name: %s %s\nAddress: %s, %s, %s, %s\nPhone Number: %s\nEmail: %s", firstName, lastName,
 				address, city, state, zip, phoneNumber, email);
 	}
+	
+	public boolean equals(String name) {
+		return this.getName() == name;
+	}
 }

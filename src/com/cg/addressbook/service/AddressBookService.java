@@ -46,12 +46,17 @@ public class AddressBookService {
 	}
 
 	public void createContact() {
-		addressBook.addContact(contactService.createContact());
+		Contact contact = contactService.createContact();
+		if (contact==null) {
+			System.out.println("Already exist in Address Book");
+			return;
+		}
+		addressBook.addContact(contact);
 	}
 
 	public void addressBookOptions(AddressBook addressBook) {
 		this.addressBook = addressBook;
-		contactService = new ContactService(sc);
+		contactService = new ContactService(sc, addressBook);
 		boolean repeat = true;
 		while (repeat) {
 			System.out.println(

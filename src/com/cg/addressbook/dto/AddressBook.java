@@ -61,4 +61,10 @@ public class AddressBook {
 			return "\nNo contact found";
 		return str.toString();
 	}
+	
+	public boolean isExistAlready(String name) {
+		int count = (int) addressList.stream().filter(contact->contact.equals(name)).count();
+		System.out.println("address:");
+		return count!=0;
+	}
 }
