@@ -99,6 +99,6 @@ public class Contact {
 	}
 	
 	public boolean equals(String name) {
-		return this.getName() == name;
+		return this.getName().equalsIgnoreCase(name);
 	}
 }

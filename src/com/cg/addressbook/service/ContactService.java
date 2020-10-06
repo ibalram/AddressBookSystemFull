@@ -114,7 +114,6 @@ public class ContactService {
 				System.out.println(e.getMessage());
 			}
 		}
-		System.out.println("\nContact is added successfully\n");
 		return contact;
 	}
 

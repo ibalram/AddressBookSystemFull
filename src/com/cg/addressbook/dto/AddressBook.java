@@ -1,6 +1,7 @@
 package com.cg.addressbook.dto;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class AddressBook {
 	private ArrayList<Contact> addressList = new ArrayList<Contact>();
@@ -84,5 +85,9 @@ public class AddressBook {
 		int count = (int) addressList.stream().filter(contact->contact.equals(name)).count();
 		System.out.println("address:");
 		return count!=0;
+	}
+	
+	public Object[] viewContactsSortedByName() {
+		return addressList.stream().sorted(Comparator.comparing(contact->contact.getName())).toArray();
 	}
 }

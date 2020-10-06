@@ -32,7 +32,7 @@ public class AddressBookService {
 			contactService.editExistingContact(contact);
 			return;
 		}
-		System.out.println("Person Not Found");
+		System.out.println("Person Not Found\n");
 	}
 
 	public void deleteContact() {
@@ -42,16 +42,29 @@ public class AddressBookService {
 			addressBook.deleteContact(name);
 			return;
 		}
-		System.out.println("Person Not Found");
+		System.out.println("Person Not Found\n");
 	}
 
 	public void createContact() {
 		Contact contact = contactService.createContact();
 		if (contact==null) {
-			System.out.println("Already exist in Address Book");
+			System.out.println("Already exist in Address Book\n");
 			return;
 		}
 		addressBook.addContact(contact);
+		System.out.println("\nContact is added successfully\n");
+	}
+	
+	public void viewContactsSortedByName() {
+		System.out.println("All Contacts in AddressBook (sorted by Name): ");
+		Object[] obj = addressBook.viewContactsSortedByName();
+		int count = 1;
+		for (Object contact: obj) {
+			System.out.println(count+"\n"+contact+"\n");
+			count++;
+		}
+		if(count==1)
+			System.out.println("No Contact Found\n");
 	}
 
 	public void addressBookOptions(AddressBook addressBook) {
@@ -60,7 +73,7 @@ public class AddressBookService {
 		boolean repeat = true;
 		while (repeat) {
 			System.out.println(
-					"\nAddress Book Options:\n1 (Add new contact)\n2 (Edit existing contact)\n3 (Delete a contact)\n4 (View all contact)\n5 (Display contact)\n6 Exit");
+					"\nAddress Book Options:\n1 (Add new contact)\n2 (Edit existing contact)\n3 (Delete a contact)\n4 (View all contacts sorted by Name)\n5 (Display contact)\n6 Exit");
 			int option = Integer.parseInt(sc.nextLine());
 			switch (option) {
 			case 1:
@@ -73,17 +86,18 @@ public class AddressBookService {
 				deleteContact();
 				break;
 			case 4:
-				System.out.println(addressBook);
+				//System.out.println(addressBook);
+				viewContactsSortedByName();
 				break;
 			case 5:
 				findContact();
 				break;
 			case 6:
 				repeat = false;
-				System.out.println("Exit");
+				System.out.println("Exit\n");
 				break;
 			default:
-				System.out.println("Invalid Entry");
+				System.out.println("Invalid Entry\n");
 			}
 		}
 	}
