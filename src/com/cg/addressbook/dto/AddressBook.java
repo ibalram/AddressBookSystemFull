@@ -90,4 +90,16 @@ public class AddressBook {
 	public Object[] viewContactsSortedByName() {
 		return addressList.stream().sorted(Comparator.comparing(contact->contact.getName())).toArray();
 	}
+	
+	public Object[] viewContactsSortedByCity() {
+		return addressList.stream().sorted(Comparator.comparing(contact->contact.getCity())).toArray();
+	}
+	
+	public Object[] viewContactsSortedByState() {
+		return addressList.stream().sorted(Comparator.comparing(contact->contact.getState())).toArray();
+	}
+	
+	public Object[] viewContactsSortedByZip() {
+		return addressList.stream().sorted(Comparator.comparing(contact->contact.getZip())).toArray();
+	}
 }

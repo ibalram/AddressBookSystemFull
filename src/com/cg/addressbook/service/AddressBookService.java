@@ -55,9 +55,27 @@ public class AddressBookService {
 		System.out.println("\nContact is added successfully\n");
 	}
 	
-	public void viewContactsSortedByName() {
-		System.out.println("All Contacts in AddressBook (sorted by Name): ");
-		Object[] obj = addressBook.viewContactsSortedByName();
+	public void viewContacts() {
+		System.out.println("Select option to view contacts sorted by:\n Name(1), City(2), State(3) or Zip(4)");
+		int option = Integer.parseInt(sc.nextLine());
+		Object[] obj;
+		switch(option) {
+		case 1:
+			obj = addressBook.viewContactsSortedByName();
+			break;
+		case 2:
+			obj = addressBook.viewContactsSortedByCity();
+			break;
+		case 3:
+			obj = addressBook.viewContactsSortedByState();
+			break;
+		case 4:
+			obj = addressBook.viewContactsSortedByZip();
+			break;
+		default:
+			System.out.println("Invalid Entry");
+			return;
+		}
 		int count = 1;
 		for (Object contact: obj) {
 			System.out.println(count+"\n"+contact+"\n");
@@ -73,7 +91,7 @@ public class AddressBookService {
 		boolean repeat = true;
 		while (repeat) {
 			System.out.println(
-					"\nAddress Book Options:\n1 (Add new contact)\n2 (Edit existing contact)\n3 (Delete a contact)\n4 (View all contacts sorted by Name)\n5 (Display contact)\n6 Exit");
+					"\nAddress Book Options:\n1 (Add new contact)\n2 (Edit existing contact)\n3 (Delete a contact)\n4 (View all contacts sorted by (Name, city, state or zip))\n5 (Display contact)\n6 Exit");
 			int option = Integer.parseInt(sc.nextLine());
 			switch (option) {
 			case 1:
@@ -86,8 +104,7 @@ public class AddressBookService {
 				deleteContact();
 				break;
 			case 4:
-				//System.out.println(addressBook);
-				viewContactsSortedByName();
+				viewContacts();
 				break;
 			case 5:
 				findContact();
