@@ -3,6 +3,8 @@ package com.cg.addressbook.service;
 import java.util.Objects;
 import java.util.Scanner;
 
+//import com.opencsv.CSVReader;
+
 import com.cg.addressbook.Validator;
 import com.cg.addressbook.dto.AddressBook;
 import com.cg.addressbook.dto.Contact;
@@ -56,10 +58,25 @@ public class AddressBookService {
 	}
 
 	public void addFromFile() {
-		AddressBookIOService ioService = new AddressBookIOService();
-		for (Contact contact : ioService.readData()) {
-			addressBook.addContact(contact);
+		System.out.println("Select IO type: (1) CSV file (2)Text file");
+		int option = Integer.parseInt(sc.nextLine());
+		switch(option) {
+		case 1:
+			AddressBookCSVService csvService = new AddressBookCSVService();
+			for (Contact contact : csvService.readData()) {
+				addressBook.addContact(contact);
+			}
+			break;
+		case 2:
+			AddressBookIOService ioService = new AddressBookIOService();
+			for (Contact contact : ioService.readData()) {
+				addressBook.addContact(contact);
+			}
+			break;
+		default:
+			System.out.println("Invalid Entry");
 		}
+		
 		System.out.println("\nContact is added successfully\n");
 	}
 
