@@ -98,6 +98,10 @@ public class Contact {
 				address, city, state, zip, phoneNumber, email);
 	}
 	
+	public String getCommaSeparated() {
+		return String.format("%s, %s, %s, %s, %s, %s, %s, %s", firstName, lastName, address, city, state, zip, phoneNumber, email);
+	}
+	
 	public boolean equals(String name) {
 		return this.getName().equalsIgnoreCase(name);
 	}

@@ -47,19 +47,27 @@ public class AddressBookService {
 
 	public void createContact() {
 		Contact contact = contactService.createContact();
-		if (contact==null) {
+		if (contact == null) {
 			System.out.println("Already exist in Address Book\n");
 			return;
 		}
 		addressBook.addContact(contact);
 		System.out.println("\nContact is added successfully\n");
 	}
-	
+
+	public void addFromFile() {
+		AddressBookIOService ioService = new AddressBookIOService();
+		for (Contact contact : ioService.readData()) {
+			addressBook.addContact(contact);
+		}
+		System.out.println("\nContact is added successfully\n");
+	}
+
 	public void viewContacts() {
 		System.out.println("Select option to view contacts sorted by:\n Name(1), City(2), State(3) or Zip(4)");
 		int option = Integer.parseInt(sc.nextLine());
 		Object[] obj;
-		switch(option) {
+		switch (option) {
 		case 1:
 			obj = addressBook.viewContactsSortedByName();
 			break;
@@ -77,11 +85,11 @@ public class AddressBookService {
 			return;
 		}
 		int count = 1;
-		for (Object contact: obj) {
-			System.out.println(count+"\n"+contact+"\n");
+		for (Object contact : obj) {
+			System.out.println(count + "\n" + contact + "\n");
 			count++;
 		}
-		if(count==1)
+		if (count == 1)
 			System.out.println("No Contact Found\n");
 	}
 
@@ -91,7 +99,7 @@ public class AddressBookService {
 		boolean repeat = true;
 		while (repeat) {
 			System.out.println(
-					"\nAddress Book Options:\n1 (Add new contact)\n2 (Edit existing contact)\n3 (Delete a contact)\n4 (View all contacts sorted by (Name, city, state or zip))\n5 (Display contact)\n6 Exit");
+					"\nAddress Book Options:\n1 (Add new contact)\n2 (Edit existing contact)\n3 (Delete a contact)\n4 (View all contacts sorted by (Name, city, state or zip))\n5 (Display contact)\n6 (Add contacts from file)\n7 Exit");
 			int option = Integer.parseInt(sc.nextLine());
 			switch (option) {
 			case 1:
@@ -110,6 +118,8 @@ public class AddressBookService {
 				findContact();
 				break;
 			case 6:
+				addFromFile();
+			case 7:
 				repeat = false;
 				System.out.println("Exit\n");
 				break;
