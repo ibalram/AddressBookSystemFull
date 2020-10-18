@@ -58,9 +58,9 @@ public class AddressBookService {
 	}
 
 	public void addFromFile() {
-		System.out.println("Select IO type: (1) CSV file (2)Text file");
+		System.out.println("Select IO type: (1)CSV file (2) JSON file (3)Text file");
 		int option = Integer.parseInt(sc.nextLine());
-		switch(option) {
+		switch (option) {
 		case 1:
 			AddressBookCSVService csvService = new AddressBookCSVService();
 			for (Contact contact : csvService.readData()) {
@@ -68,6 +68,12 @@ public class AddressBookService {
 			}
 			break;
 		case 2:
+			AddressBookJSONService jsonService = new AddressBookJSONService();
+			for (Contact contact : jsonService.readData()) {
+				addressBook.addContact(contact);
+			}
+			break;
+		case 3:
 			AddressBookIOService ioService = new AddressBookIOService();
 			for (Contact contact : ioService.readData()) {
 				addressBook.addContact(contact);
@@ -76,7 +82,7 @@ public class AddressBookService {
 		default:
 			System.out.println("Invalid Entry");
 		}
-		
+
 		System.out.println("\nContact is added successfully\n");
 	}
 

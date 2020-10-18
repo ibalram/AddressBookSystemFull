@@ -1,12 +1,10 @@
 package com.cg.addressbook.service;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.cg.addressbook.dto.Contact;
@@ -19,7 +17,7 @@ import com.opencsv.exceptions.CsvDataTypeMismatchException;
 import com.opencsv.exceptions.CsvRequiredFieldEmptyException;
 
 public class AddressBookCSVService {
-	private String CONTACT_FILE_NAME = "./contactsCSV.csv";
+	private String CONTACT_FILE_NAME = "./contactsCsv.csv";
 
 	public List<Contact> readData() {
 		List<Contact> contactList = null;
