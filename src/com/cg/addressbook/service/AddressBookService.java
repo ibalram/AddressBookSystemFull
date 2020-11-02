@@ -1,5 +1,6 @@
 package com.cg.addressbook.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
@@ -181,6 +182,10 @@ public class AddressBookService {
 	public boolean checkAddressBookInSyncWithDB(String name) {
 		List<Contact> contactList = addressBookDBService.getAddressBookData(name);
 		return contactList.get(0).equals(getAddressBookContact(name));
+	}
+
+	public List<Contact> getContactsAddedInDateRange(LocalDate startDate, LocalDate endDate) {
+		return addressBookDBService.getContactsAddedInDateRange(startDate, endDate);
 	}
 
 }

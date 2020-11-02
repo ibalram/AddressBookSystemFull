@@ -1,6 +1,7 @@
 package com.cg.addressbook.service;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -109,6 +110,13 @@ public class AddressBookDBService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List<Contact> getContactsAddedInDateRange(LocalDate startDate, LocalDate endDate) {
+		String sql = String.format(
+				"select * from addressbook a inner join contact c on a.person_id=c.person_id where date_added between '%s' and '%s';",
+				Date.valueOf(startDate), Date.valueOf(endDate));
+		return this.getContactUsingDB(sql);
 	}
 
 }
