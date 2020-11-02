@@ -113,4 +113,11 @@ public class AddressBookDBService {
 		return this.getContactUsingDB(sql);
 	}
 
+	public List<Contact> getContactsByCityOrState(String city, String state) {
+		String sql = String.format(
+				"select * from addressbook a inner join contact c on a.person_id=c.person_id where city='%s' or state='%s';",
+				city, state);
+		return this.getContactUsingDB(sql);
+	}
+
 }

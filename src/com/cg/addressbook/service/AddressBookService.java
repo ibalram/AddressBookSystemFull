@@ -184,4 +184,8 @@ public class AddressBookService {
 		return addressBookDBService.getContactsAddedInDateRange(startDate, endDate);
 	}
 
+	public List<Contact> getContactsByCityOrState(String city, String state) {
+		return addressBookDBService.getContactsByCityOrState(city, state);
+	}
+
 }

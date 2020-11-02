@@ -42,4 +42,11 @@ public class AddressBookServiceTest {
 		List<Contact> contactsAddedInDateRange = addressBookService.getContactsAddedInDateRange(startDate, endDate);
 		assertEquals(5, contactsAddedInDateRange.size());
 	}
+
+	@Test
+	public void givenAddressBookDBWhenRetrievedForCityOrState_ShouldMatchCount() {
+		addressBookService.readAddressBookData();
+		List<Contact> contactsByCityOrState = addressBookService.getContactsByCityOrState("Jaipur", "Delhi");
+		assertEquals(3, contactsByCityOrState.size());
+	}
 }
