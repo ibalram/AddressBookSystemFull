@@ -120,4 +120,67 @@ public class AddressBookDBService {
 		return this.getContactUsingDB(sql);
 	}
 
+	public Contact addContactToAddressBookDB(String first_name, String last_name, String address, String city,
+			String state, String zip, String phone_number, String email, LocalDate date_added) {
+		int personId = -1;
+		Contact contact = null;
+		Connection connection = null;
+		try {
+			connection = this.getConnection();
+			connection.setAutoCommit(false);
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+		try (Statement statement = connection.createStatement()) {
+			String sql = String.format(
+					"insert into addressbook(first_name, last_name, address, city, state, zip, date_added) "
+							+ "values ('%s', '%s', '%s', '%s', '%s', '%s', '%s');",
+					first_name, last_name, address, city, state, zip, Date.valueOf(date_added));
+			int rowAffected = statement.executeUpdate(sql, statement.RETURN_GENERATED_KEYS);
+			if (rowAffected == 1) {
+				ResultSet resultSet = statement.getGeneratedKeys();
+				if (resultSet.next())
+					personId = resultSet.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+				return contact;
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		try (Statement statement = connection.createStatement()) {
+			String sql = String.format("insert into contact (person_id, phone_number, email) values (%s, '%s', '%s');",
+					personId, phone_number, email);
+			int rowAffected = statement.executeUpdate(sql);
+			if (rowAffected == 1) {
+				contact = new Contact(first_name, last_name, address, city, state, zip, phone_number, email);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+		}
+		System.out.println(contact);
+		try {
+			connection.commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return contact;
+	}
+
 }

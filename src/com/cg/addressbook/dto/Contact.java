@@ -1,5 +1,7 @@
 package com.cg.addressbook.dto;
 
+import java.time.LocalDate;
+
 public class Contact {
 	private String firstName;
 	private String lastName;
@@ -9,6 +11,15 @@ public class Contact {
 	private String zip;
 	private String phoneNumber;
 	private String email;
+	private LocalDate dateAdded;
+
+	public LocalDate getDateAdded() {
+		return dateAdded;
+	}
+
+	public void setDateAdded(LocalDate dateAdded) {
+		this.dateAdded = dateAdded;
+	}
 
 	public Contact() {
 	}
@@ -23,6 +34,12 @@ public class Contact {
 		this.zip = zip;
 		this.phoneNumber = phoneNumber;
 		this.email = email;
+	}
+
+	public Contact(String firstName, String lastName, String address, String city, String state, String zip,
+			String phoneNumber, String email, LocalDate dateAdded) {
+		this(firstName, lastName, address, city, state, zip, phoneNumber, email);
+		this.dateAdded = dateAdded;
 	}
 
 	public void setFirstName(String firstName) {

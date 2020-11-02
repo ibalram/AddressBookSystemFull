@@ -49,4 +49,13 @@ public class AddressBookServiceTest {
 		List<Contact> contactsByCityOrState = addressBookService.getContactsByCityOrState("Jaipur", "Delhi");
 		assertEquals(3, contactsByCityOrState.size());
 	}
+
+	@Test
+	public void givenAddressBookDBWhenAddedContactToDB_shouldMatchCount() {
+		List<Contact> personsData = addressBookService.readAddressBookData();
+		addressBookService.addContactToAddressBookDB("Mark", "Wood", "no address", "Mumbai", "Maharashtra", "412345",
+				"91 9812345678", "mark@gmail.com", LocalDate.now());
+		boolean result = addressBookService.checkAddressBookInSyncWithDB("Mark");
+		assertTrue(result);
+	}
 }

@@ -188,4 +188,10 @@ public class AddressBookService {
 		return addressBookDBService.getContactsByCityOrState(city, state);
 	}
 
+	public void addContactToAddressBookDB(String first_name, String last_name, String address, String city,
+			String state, String zip, String phone_number, String email, LocalDate date_added) {
+		contactList.add(addressBookDBService.addContactToAddressBookDB(first_name, last_name, address, city, state, zip,
+				phone_number, email, date_added));
+	}
+
 }
