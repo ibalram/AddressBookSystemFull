@@ -2,6 +2,7 @@ package com.cg.addressbook.service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,6 +14,7 @@ import com.cg.addressbook.dto.Contact;
 
 public class AddressBookDBService {
 	private static AddressBookDBService addressBookDBService;
+	private PreparedStatement addressBookStatement;
 
 	private AddressBookDBService() {
 	}
@@ -63,13 +65,50 @@ public class AddressBookDBService {
 				String zip = result.getString("zip");
 				String phone_number = result.getString("phone_number");
 				String email = result.getString("email");
-				contactList
-						.add(new Contact(first_name, last_name, address, city, state, zip, phone_number, email));
+				contactList.add(new Contact(first_name, last_name, address, city, state, zip, phone_number, email));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return contactList;
+	}
+
+	public int updatePhoneNumber(String name, String phone_number) {
+		String sql = String.format(
+				"update contact set phone_number= '%s' where person_id in (select person_id from addressbook where first_name='%s');",
+				phone_number, name);
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			return statement.executeUpdate(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public List<Contact> getAddressBookData(String name) {
+		List<Contact> contactList = null;
+		if (this.addressBookStatement == null) {
+			this.prepareStatementForContact();
+		}
+		try {
+			addressBookStatement.setString(1, name);
+			ResultSet resultSet = addressBookStatement.executeQuery();
+			contactList = this.getContact(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contactList;
+	}
+
+	private void prepareStatementForContact() {
+		try {
+			Connection connection = this.getConnection();
+			String sql = "select * from addressbook a inner join contact c on a.person_id=c.person_id where first_name=?;";
+			addressBookStatement = connection.prepareStatement(sql);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

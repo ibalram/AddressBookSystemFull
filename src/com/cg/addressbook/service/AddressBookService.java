@@ -17,6 +17,7 @@ public class AddressBookService {
 	private AddressBook addressBook;
 
 	private AddressBookDBService addressBookDBService;
+	private List<Contact> contactList;
 
 	public AddressBookService() {
 		addressBookDBService = AddressBookDBService.getInstance();
@@ -160,6 +161,26 @@ public class AddressBookService {
 	}
 
 	public List<Contact> readAddressBookData() {
-		return addressBookDBService.readData();
+		this.contactList = addressBookDBService.readData();
+		return contactList;
 	}
+
+	public void updatePhoneNumber(String name, String phone_number) {
+		int result = addressBookDBService.updatePhoneNumber(name, phone_number);
+		if (result == 0)
+			return;
+		Contact contact = this.getAddressBookContact(name);
+		if (contact != null)
+			contact.setPhoneNumber(phone_number);
+	}
+
+	private Contact getAddressBookContact(String name) {
+		return this.contactList.stream().filter(data -> data.getFirstName().equals(name)).findFirst().orElse(null);
+	}
+
+	public boolean checkAddressBookInSyncWithDB(String name) {
+		List<Contact> contactList = addressBookDBService.getAddressBookData(name);
+		return contactList.get(0).equals(getAddressBookContact(name));
+	}
+
 }
