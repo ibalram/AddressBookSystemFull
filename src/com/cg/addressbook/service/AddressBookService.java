@@ -4,16 +4,12 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
-
-//import com.opencsv.CSVReader;
-
 import com.cg.addressbook.Validator;
 import com.cg.addressbook.dto.AddressBook;
 import com.cg.addressbook.dto.Contact;
 
 public class AddressBookService {
 	private Scanner sc;
-	private Validator validator;
 	private ContactService contactService;
 	private AddressBook addressBook;
 
@@ -26,7 +22,7 @@ public class AddressBookService {
 
 	public AddressBookService(Scanner sc) {
 		this.sc = sc;
-		this.validator = new Validator();
+		new Validator();
 	}
 
 	public void findContact() {
