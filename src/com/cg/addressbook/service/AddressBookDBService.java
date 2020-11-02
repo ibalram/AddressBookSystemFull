@@ -1,0 +1,75 @@
+package com.cg.addressbook.service;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.cg.addressbook.dto.Contact;
+
+public class AddressBookDBService {
+	private static AddressBookDBService addressBookDBService;
+
+	private AddressBookDBService() {
+	}
+
+	public static AddressBookDBService getInstance() {
+		if (addressBookDBService == null)
+			addressBookDBService = new AddressBookDBService();
+		return addressBookDBService;
+	}
+
+	private Connection getConnection() throws SQLException {
+		String jdbcURL = "jdbc:mysql://localhost:3306/address_book_service?useSSL=false";
+		String userName = "root";
+		String password = "1234";
+		Connection connection = null;
+		System.out.println("Connecting to database:" + jdbcURL);
+		connection = DriverManager.getConnection(jdbcURL, userName, password);
+		System.out.println("Connection is successfull!!!" + connection);
+		return connection;
+	}
+
+	public List<Contact> readData() {
+		String sql = "select * from addressbook a inner join contact c on a.person_id=c.person_id;";
+		return this.getContactUsingDB(sql);
+	}
+
+	private List<Contact> getContactUsingDB(String sql) {
+		List<Contact> contactList = new ArrayList<>();
+		try (Connection connection = this.getConnection()) {
+			Statement statement = connection.createStatement();
+			ResultSet resultSet = statement.executeQuery(sql);
+			contactList = this.getContact(resultSet);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contactList;
+	}
+
+	private List<Contact> getContact(ResultSet result) {
+		List<Contact> contactList = new ArrayList<Contact>();
+		try {
+			while (result.next()) {
+				String first_name = result.getString("first_name");
+				String last_name = result.getString("last_name");
+				String address = result.getString("address");
+				String city = result.getString("city");
+				String state = result.getString("state");
+				String zip = result.getString("zip");
+				String phone_number = result.getString("phone_number");
+				String email = result.getString("email");
+				contactList
+						.add(new Contact(first_name, last_name, address, city, state, zip, phone_number, email));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return contactList;
+	}
+
+}

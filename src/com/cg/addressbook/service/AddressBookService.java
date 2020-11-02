@@ -1,5 +1,6 @@
 package com.cg.addressbook.service;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -14,6 +15,12 @@ public class AddressBookService {
 	private Validator validator;
 	private ContactService contactService;
 	private AddressBook addressBook;
+
+	private AddressBookDBService addressBookDBService;
+
+	public AddressBookService() {
+		addressBookDBService = AddressBookDBService.getInstance();
+	}
 
 	public AddressBookService(Scanner sc) {
 		this.sc = sc;
@@ -150,5 +157,9 @@ public class AddressBookService {
 				System.out.println("Invalid Entry\n");
 			}
 		}
+	}
+
+	public List<Contact> readAddressBookData() {
+		return addressBookDBService.readData();
 	}
 }
