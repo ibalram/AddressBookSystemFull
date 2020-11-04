@@ -1,6 +1,7 @@
 package com.cg.addressbook.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
@@ -192,6 +193,27 @@ public class AddressBookService {
 			String state, String zip, String phone_number, String email, LocalDate date_added) {
 		contactList.add(addressBookDBService.addContactToAddressBookDB(first_name, last_name, address, city, state, zip,
 				phone_number, email, date_added));
+	}
+
+	public void addMultipleContacts(List<Contact> contacts) {
+		List<Integer> tasks = new ArrayList();
+		for (Contact contact : contacts) {
+			Runnable task = () -> {
+				this.addContactToAddressBookDB(contact.getFirstName(), contact.getLastName(), contact.getAddress(),
+						contact.getCity(), contact.getState(), contact.getZip(), contact.getPhoneNumber(),
+						contact.getEmail(), contact.getDateAdded());
+				tasks.add(1);
+			};
+			Thread thread = new Thread(task, contact.getFirstName());
+			thread.start();
+		}
+		while (tasks.size() != contacts.size()) {
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+
+			}
+		}
 	}
 
 }

@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -52,10 +53,25 @@ public class AddressBookServiceTest {
 
 	@Test
 	public void givenAddressBookDBWhenAddedContactToDB_shouldMatchCount() {
-		List<Contact> personsData = addressBookService.readAddressBookData();
+		addressBookService.readAddressBookData();
 		addressBookService.addContactToAddressBookDB("Mark", "Wood", "no address", "Mumbai", "Maharashtra", "412345",
 				"91 9812345678", "mark@gmail.com", LocalDate.now());
 		boolean result = addressBookService.checkAddressBookInSyncWithDB("Mark");
 		assertTrue(result);
+	}
+
+	@Test
+	public void givenAddressBookDBWhenMultipleContactsAddedToDB_shouldMatchCount() {
+		addressBookService.readAddressBookData();
+		List<Contact> contactList = Arrays.asList(
+				new Contact("William", "Lin", "no address", "Chennai", "Karnataka", "123345", "91 9535352378",
+						"tmwilliam@gmail.com", LocalDate.now()),
+				new Contact("Alex", "Wice", "no address", "Chennai", "Karnataka", "123345", "91 9535352378",
+						"awice@gmail.com", LocalDate.now()),
+				new Contact("Terisa", "Wilson", "no address", "Mumbai", "Maharashtra", "432345", "91 9997652378",
+						"terisa@gmail.com", LocalDate.now()));
+		addressBookService.addMultipleContacts(contactList);
+		contactList = addressBookService.readAddressBookData();
+		assertEquals(9, contactList.size());
 	}
 }
