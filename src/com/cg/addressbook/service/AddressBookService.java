@@ -6,6 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
+
+import org.apache.groovy.json.internal.IO;
+
 import com.cg.addressbook.Validator;
 import com.cg.addressbook.dto.AddressBook;
 import com.cg.addressbook.dto.Contact;
@@ -181,22 +184,33 @@ public class AddressBookService {
 		return null;
 	}
 
-	public void updatePhoneNumber(String name, String phone_number) {
-		int result = addressBookDBService.updatePhoneNumber(name, phone_number);
+	public void updatePhoneNumber(String name, String phoneNumber, IOService ioService) {
+		int result = 0;
+		if (ioService.equals(IOService.DB_IO)) {
+			addressBookDBService.updatePhoneNumber(name, phoneNumber);
+		} else if (ioService.equals(IOService.DB_IO)) {
+			addressBookRestAPIService.updatePhoneNumber(name, phoneNumber);
+		}
 		if (result == 0)
 			return;
 		Contact contact = this.getAddressBookContact(name);
 		if (contact != null)
-			contact.setPhoneNumber(phone_number);
+			contact.setPhoneNumber(phoneNumber);
 	}
 
 	private Contact getAddressBookContact(String name) {
 		return this.contactList.stream().filter(data -> data.getFirstName().equals(name)).findFirst().orElse(null);
 	}
 
-	public boolean checkAddressBookInSyncWithDB(String name) {
-		List<Contact> contactList = addressBookDBService.getAddressBookData(name);
-		return contactList.get(0).equals(getAddressBookContact(name));
+	public boolean checkAddressBookInSync(String name, IOService ioService) {
+		Contact contact;
+		if (ioService.equals(IOService.DB_IO)) {
+			contact = addressBookDBService.getAddressBookData(name).get(0);
+		} else if (ioService.equals(IOService.REST_IO)) {
+			contact = addressBookRestAPIService.getAddressBookData(name);
+		} else
+			return false;
+		return contact.equals(getAddressBookContact(name));
 	}
 
 	public List<Contact> getContactsAddedInDateRange(IOService ioService, LocalDate startDate, LocalDate endDate) {

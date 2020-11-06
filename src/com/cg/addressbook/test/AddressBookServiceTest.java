@@ -31,8 +31,8 @@ public class AddressBookServiceTest {
 	@Test
 	public void givenAddressBookDBWhenUpdated_ShouldSyncWithDB() {
 		addressBookService.readAddressBookData(IOService.DB_IO);
-		addressBookService.updatePhoneNumber("Balram", "91 9912345678");
-		boolean result = addressBookService.checkAddressBookInSyncWithDB("Balram");
+		addressBookService.updatePhoneNumber("Balram", "91 9912345678", IOService.DB_IO);
+		boolean result = addressBookService.checkAddressBookInSync("Balram", IOService.DB_IO);
 		assertTrue(result);
 	}
 
@@ -41,14 +41,16 @@ public class AddressBookServiceTest {
 		addressBookService.readAddressBookData(IOService.DB_IO);
 		LocalDate startDate = LocalDate.of(2020, 01, 01);
 		LocalDate endDate = LocalDate.now();
-		List<Contact> contactsAddedInDateRange = addressBookService.getContactsAddedInDateRange(IOService.DB_IO, startDate, endDate);
+		List<Contact> contactsAddedInDateRange = addressBookService.getContactsAddedInDateRange(IOService.DB_IO,
+				startDate, endDate);
 		assertEquals(5, contactsAddedInDateRange.size());
 	}
 
 	@Test
 	public void givenAddressBookDBWhenRetrievedForCityOrState_ShouldMatchCount() {
 		addressBookService.readAddressBookData(IOService.DB_IO);
-		List<Contact> contactsByCityOrState = addressBookService.getContactsByCityOrState(IOService.DB_IO, "Jaipur", "Delhi");
+		List<Contact> contactsByCityOrState = addressBookService.getContactsByCityOrState(IOService.DB_IO, "Jaipur",
+				"Delhi");
 		assertEquals(3, contactsByCityOrState.size());
 	}
 
@@ -57,7 +59,7 @@ public class AddressBookServiceTest {
 		addressBookService.readAddressBookData(IOService.DB_IO);
 		addressBookService.addContactToAddressBookDB("Mark", "Wood", "no address", "Mumbai", "Maharashtra", "412345",
 				"91 9812345678", "mark@gmail.com", LocalDate.now());
-		boolean result = addressBookService.checkAddressBookInSyncWithDB("Mark");
+		boolean result = addressBookService.checkAddressBookInSync("Mark", IOService.DB_IO);
 		assertTrue(result);
 	}
 

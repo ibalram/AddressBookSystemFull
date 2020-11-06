@@ -1,5 +1,6 @@
 package com.cg.addressbook.test;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
@@ -51,5 +52,13 @@ public class AddressBookRestAPITest {
 
 		int count = addressBookService.countEntries();
 		assertEquals(6, count);
+	}
+
+	@Test
+	public void givenAddressBookOnServerWhenUpdated_ShouldBeInSyncWithMemory() {
+		List<Contact> contactList = addressBookService.readAddressBookData(IOService.REST_IO);
+		addressBookService.updatePhoneNumber("Balram", "91 8949759544", IOService.REST_IO);
+		boolean result = addressBookService.checkAddressBookInSync("Balram", IOService.REST_IO);
+		assertTrue(result);
 	}
 }
