@@ -2,6 +2,7 @@ package com.cg.addressbook.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Scanner;
@@ -19,10 +20,12 @@ public class AddressBookService {
 	private AddressBook addressBook;
 
 	private AddressBookDBService addressBookDBService;
+	private AddressBookRestAPIService addressBookRestAPIService;
 	private List<Contact> contactList;
 
 	public AddressBookService() {
 		addressBookDBService = AddressBookDBService.getInstance();
+		addressBookRestAPIService = new AddressBookRestAPIService();
 	}
 
 	public AddressBookService(List<Contact> contactList) {
@@ -171,6 +174,9 @@ public class AddressBookService {
 		if (ioService.equals(IOService.DB_IO)) {
 			this.contactList = addressBookDBService.readData();
 			return contactList;
+		} else if (ioService.equals(IOService.REST_IO)) {
+			this.contactList = Arrays.asList(addressBookRestAPIService.getContactList());
+			return contactList;
 		}
 		return null;
 	}
@@ -213,23 +219,37 @@ public class AddressBookService {
 				phone_number, email, date_added));
 	}
 
-	public void addMultipleContacts(List<Contact> contacts, IOService ioService) {
-		List<Integer> tasks = new ArrayList();
-		for (Contact contact : contacts) {
-			Runnable task = () -> {
-				this.addContactToAddressBookDB(contact.getFirstName(), contact.getLastName(), contact.getAddress(),
-						contact.getCity(), contact.getState(), contact.getZip(), contact.getPhoneNumber(),
-						contact.getEmail(), contact.getDateAdded());
-				tasks.add(1);
-			};
-			Thread thread = new Thread(task, contact.getFirstName());
-			thread.start();
+	public int addContactToJSONServer(Contact contact) {
+		int statusCode = addressBookRestAPIService.addContactToJSONServer(contact);
+		if (statusCode == 201) {
+			this.contactList = Arrays.asList(addressBookRestAPIService.getContactList());
 		}
-		while (tasks.size() != contacts.size()) {
-			try {
-				Thread.sleep(10);
-			} catch (InterruptedException e) {
+		return statusCode;
+	}
 
+	public void addMultipleContacts(List<Contact> contacts, IOService ioService) {
+		if (ioService.equals(IOService.DB_IO)) {
+			List<Integer> tasks = new ArrayList();
+			for (Contact contact : contacts) {
+				Runnable task = () -> {
+					this.addContactToAddressBookDB(contact.getFirstName(), contact.getLastName(), contact.getAddress(),
+							contact.getCity(), contact.getState(), contact.getZip(), contact.getPhoneNumber(),
+							contact.getEmail(), contact.getDateAdded());
+					tasks.add(1);
+				};
+				Thread thread = new Thread(task, contact.getFirstName());
+				thread.start();
+			}
+			while (tasks.size() != contacts.size()) {
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e) {
+
+				}
+			}
+		} else if (ioService.equals(IOService.REST_IO)) {
+			for (Contact contact : contacts) {
+				this.addContactToJSONServer(contact);
 			}
 		}
 	}
