@@ -10,6 +10,10 @@ import com.cg.addressbook.dto.AddressBook;
 import com.cg.addressbook.dto.Contact;
 
 public class AddressBookService {
+	public enum IOService {
+		CONSOLE_IO, FILE_IO, DB_IO, REST_IO;
+	}
+
 	private Scanner sc;
 	private ContactService contactService;
 	private AddressBook addressBook;
@@ -19,6 +23,11 @@ public class AddressBookService {
 
 	public AddressBookService() {
 		addressBookDBService = AddressBookDBService.getInstance();
+	}
+
+	public AddressBookService(List<Contact> contactList) {
+		this();
+		this.contactList = new ArrayList<>(contactList);
 	}
 
 	public AddressBookService(Scanner sc) {
@@ -158,9 +167,12 @@ public class AddressBookService {
 		}
 	}
 
-	public List<Contact> readAddressBookData() {
-		this.contactList = addressBookDBService.readData();
-		return contactList;
+	public List<Contact> readAddressBookData(IOService ioService) {
+		if (ioService.equals(IOService.DB_IO)) {
+			this.contactList = addressBookDBService.readData();
+			return contactList;
+		}
+		return null;
 	}
 
 	public void updatePhoneNumber(String name, String phone_number) {
@@ -181,12 +193,18 @@ public class AddressBookService {
 		return contactList.get(0).equals(getAddressBookContact(name));
 	}
 
-	public List<Contact> getContactsAddedInDateRange(LocalDate startDate, LocalDate endDate) {
-		return addressBookDBService.getContactsAddedInDateRange(startDate, endDate);
+	public List<Contact> getContactsAddedInDateRange(IOService ioService, LocalDate startDate, LocalDate endDate) {
+		if (ioService.equals(IOService.DB_IO)) {
+			return addressBookDBService.getContactsAddedInDateRange(startDate, endDate);
+		}
+		return null;
 	}
 
-	public List<Contact> getContactsByCityOrState(String city, String state) {
-		return addressBookDBService.getContactsByCityOrState(city, state);
+	public List<Contact> getContactsByCityOrState(IOService ioService, String city, String state) {
+		if (ioService.equals(IOService.DB_IO)) {
+			return addressBookDBService.getContactsByCityOrState(city, state);
+		}
+		return null;
 	}
 
 	public void addContactToAddressBookDB(String first_name, String last_name, String address, String city,
@@ -195,7 +213,7 @@ public class AddressBookService {
 				phone_number, email, date_added));
 	}
 
-	public void addMultipleContacts(List<Contact> contacts) {
+	public void addMultipleContacts(List<Contact> contacts, IOService ioService) {
 		List<Integer> tasks = new ArrayList();
 		for (Contact contact : contacts) {
 			Runnable task = () -> {
@@ -214,6 +232,10 @@ public class AddressBookService {
 
 			}
 		}
+	}
+
+	public int countEntries() {
+		return contactList.size();
 	}
 
 }
